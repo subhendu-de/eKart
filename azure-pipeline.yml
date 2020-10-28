@@ -48,3 +48,26 @@ stages:
         - task: PublishBuildArtifacts@1
           displayName: 'Publish Artifact: drop'
           condition: succeeded()
+
+    - job: 'Deploy'
+      displayName: 'Build the app'
+      pool:
+        vmImage: 'ubuntu-latest'
+      steps:
+        - task: AzureRmWebAppDeployment@4
+          displayName: 'Deploy the eKart api'
+          inputs:
+            ConnectionType: 'AzureRM'
+            azureSubscription: 'Visual Studio Ultimate with MSDN(21490f0c-acc8-4720-bdaa-300c230b5236)'
+            appType: 'webApp'
+            WebAppName: 'ekart-api'
+            packageForLinux: '$(System.DefaultWorkingDirectory)/**/eKart.api.zip'
+    
+        - task: AzureRmWebAppDeployment@4
+          displayName: 'Deploy the eKart web'
+          inputs:
+            ConnectionType: 'AzureRM'
+            azureSubscription: 'Visual Studio Ultimate with MSDN(21490f0c-acc8-4720-bdaa-300c230b5236)'
+            appType: 'webApp'
+            WebAppName: 'ekart-web'
+            packageForLinux: '$(System.DefaultWorkingDirectory)/**/eKart.web.zip'
