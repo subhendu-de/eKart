@@ -49,13 +49,6 @@ stages:
           displayName: 'Publish Artifact: drop'
           condition: succeeded()
 
- - stage: 'Deploy'
-   jobs:
-    - job: 'Deploy'
-      displayName: 'Deploy the app'
-      pool:
-        vmImage: 'ubuntu-latest'
-      steps:
         - task: AzureRmWebAppDeployment@4
           displayName: 'Deploy the eKart api'
           inputs:
