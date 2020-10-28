@@ -49,8 +49,10 @@ stages:
           displayName: 'Publish Artifact: drop'
           condition: succeeded()
 
+ - stage: 'Deploy'
+   jobs:
     - job: 'Deploy'
-      displayName: 'Build the app'
+      displayName: 'Deploy the app'
       pool:
         vmImage: 'ubuntu-latest'
       steps:
