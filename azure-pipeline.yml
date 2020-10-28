@@ -63,7 +63,7 @@ stages:
             azureSubscription: 'Visual Studio Ultimate with MSDN(21490f0c-acc8-4720-bdaa-300c230b5236)'
             appType: 'webApp'
             WebAppName: 'ekart-api'
-            packageForLinux: '$(System.DefaultWorkingDirectory)/**/eKart.api.zip'
+            packageForLinux: '$(Build.ArtifactStagingDirectory)/Release/**/eKart.api.zip'
     
         - task: AzureRmWebAppDeployment@4
           displayName: 'Deploy the eKart web'
@@ -72,4 +72,4 @@ stages:
             azureSubscription: 'Visual Studio Ultimate with MSDN(21490f0c-acc8-4720-bdaa-300c230b5236)'
             appType: 'webApp'
             WebAppName: 'ekart-web'
-            packageForLinux: '$(System.DefaultWorkingDirectory)/**/eKart.web.zip'
+            packageForLinux: '$(Build.ArtifactStagingDirectory)/Release/**/eKart.web.zip'
