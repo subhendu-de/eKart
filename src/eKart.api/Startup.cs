@@ -29,7 +29,6 @@ namespace eKart.api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddApplicationInsightsTelemetry();
 
             services.AddScoped<IDatasourceContext, SQLServerContext>();
             services.AddDbContext<SQLServerContext>(options => options.UseSqlServer(Configuration["ConnectionString"]));            
