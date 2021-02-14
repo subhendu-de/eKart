@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace eKart.Api.Data
 {
-    public class SQLServerContext: DbContext, IDatasourceContext
+    public class eKartContext: DbContext
     {
-        public SQLServerContext(DbContextOptions options):base(options)
+        public eKartContext(DbContextOptions options):base(options)
         {}
         public DbSet<Product> Products {get; set; }
     }

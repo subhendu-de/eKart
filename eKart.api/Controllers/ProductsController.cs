@@ -12,8 +12,9 @@ namespace eKart.api.Controllers
     [Route("[controller]")]
     public class ProductsController : ControllerBase
     {
-        private readonly IDatasourceContext _context;
-        public ProductsController(IDatasourceContext context)
+        private readonly eKartContext _context;
+
+        public ProductsController(eKartContext context)
         {
             _context = context;
         }
