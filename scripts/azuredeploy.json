@@ -1,0 +1,60 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "rgName": {
+            "type": "string",
+            "defaultValue": "ekartsample"
+        },
+        "rgLocation": {
+            "type": "string",
+            "defaultValue": "centralindia"
+        }
+    },
+    "variables": {
+        "sqlServerName": "ekartdbserver",
+        "sqlDbName": "inventory",
+        "appServicePlanName": "ekartasp",
+        "eKartWebAppName": "ekartweb",
+        "eKartApiName": "ekartapi"
+    },
+    "functions": [],
+    "resources": [
+        {
+            "name": "[parameters('rgName')]",
+            "type": "Microsoft.Resources/resourceGroups",
+            "apiVersion": "2019-10-01",
+            "location": "[parameters('rgLocation')]",
+            "tags": {
+            }
+        },
+        {
+            "name": "[variables('sqlServerName')]",
+            "type": "Microsoft.Sql/servers",
+            "apiVersion": "2014-04-01",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/resourceGroups', parameters('rgName'))]"
+            ],
+            "location": "[resourceGroup().location]",
+            "tags": {
+            },
+            "properties": {
+                "administratorLogin": "ekartadmin",
+                "administratorLoginPassword": "Test4Fun"
+            },
+            "resources": [{
+                "type": "firewallRules",
+                "apiVersion": "2014-04-01",
+                "dependsOn": [
+                    "[resourceId('Microsoft.Sql/servers', variables('sqlServerName'))]"
+                ],
+                "location": "[resourceGroup().location]",
+                "name": "AllowAllWindowsAzureIps",
+                "properties": {
+                    "startIpAddress": "0.0.0.0",
+                    "endIpAddress": "0.0.0.0"
+                }                
+            }]
+        }],
+    "outputs": {}
+}
