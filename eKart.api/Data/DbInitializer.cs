@@ -16,7 +16,13 @@ namespace eKart.Api.Data
 
             var products = new Product[]
             {
-                new Product{Name="Apple"}
+                new Product{Name="Apple"},
+                new Product{Name="Banana"},
+                new Product{Name="Orange"},
+                new Product{Name="Grape"},
+                new Product{Name="Plum"},
+                new Product{Name="Lime"},
+                new Product{Name="Kiwi"}
             };
 
             context.Products.AddRange(products);

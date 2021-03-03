@@ -5,9 +5,7 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{05D37166-5841-4602-81BF-E955CD869247}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eKart.api", "src\eKart.api\eKart.api.csproj", "{E5B24922-63B9-443F-9EB7-55E0B62C53EF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eKart.web", "src\eKart.web\eKart.web.csproj", "{CD5F75D6-6D17-43E9-B4D4-AEDB349355DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eKart.api", "eKart.api\eKart.api.csproj", "{E5B24922-63B9-443F-9EB7-55E0B62C53EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,21 +32,8 @@ Global
 		{E5B24922-63B9-443F-9EB7-55E0B62C53EF}.Release|x64.Build.0 = Release|Any CPU
 		{E5B24922-63B9-443F-9EB7-55E0B62C53EF}.Release|x86.ActiveCfg = Release|Any CPU
 		{E5B24922-63B9-443F-9EB7-55E0B62C53EF}.Release|x86.Build.0 = Release|Any CPU
-		{CD5F75D6-6D17-43E9-B4D4-AEDB349355DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CD5F75D6-6D17-43E9-B4D4-AEDB349355DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CD5F75D6-6D17-43E9-B4D4-AEDB349355DB}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{CD5F75D6-6D17-43E9-B4D4-AEDB349355DB}.Debug|x64.Build.0 = Debug|Any CPU
-		{CD5F75D6-6D17-43E9-B4D4-AEDB349355DB}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{CD5F75D6-6D17-43E9-B4D4-AEDB349355DB}.Debug|x86.Build.0 = Debug|Any CPU
-		{CD5F75D6-6D17-43E9-B4D4-AEDB349355DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CD5F75D6-6D17-43E9-B4D4-AEDB349355DB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CD5F75D6-6D17-43E9-B4D4-AEDB349355DB}.Release|x64.ActiveCfg = Release|Any CPU
-		{CD5F75D6-6D17-43E9-B4D4-AEDB349355DB}.Release|x64.Build.0 = Release|Any CPU
-		{CD5F75D6-6D17-43E9-B4D4-AEDB349355DB}.Release|x86.ActiveCfg = Release|Any CPU
-		{CD5F75D6-6D17-43E9-B4D4-AEDB349355DB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E5B24922-63B9-443F-9EB7-55E0B62C53EF} = {05D37166-5841-4602-81BF-E955CD869247}
-		{CD5F75D6-6D17-43E9-B4D4-AEDB349355DB} = {05D37166-5841-4602-81BF-E955CD869247}
 	EndGlobalSection
 EndGlobal
