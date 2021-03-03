@@ -1,0 +1,16 @@
+version: "3.3"
+services: 
+  db:
+    image: "microsoft/mssql-server-linux"
+    environment: 
+      ACCEPT_EULA: Y
+      SA_PASSWORD: MyPass@word
+      MSSQL_PID: Express
+  web:
+    build:
+      context: .
+      dockerfile: ./DockerFile
+    ports:
+      - "8080:80"
+    depends_on: 
+      - db
