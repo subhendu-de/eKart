@@ -53,6 +53,10 @@ stages:
             appType: 'webApp'
             WebAppName: 'ekartapi2021'
             packageForLinux: '$(Build.ArtifactStagingDirectory)/Release/**/eKart.api.zip'
+            enableCustomDeployment: true
+            DeploymentType: 'webDeploy'
+
+
 
         - task: PublishBuildArtifacts@1
           displayName: 'Publish Artifact: drop'
