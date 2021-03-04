@@ -11,11 +11,9 @@
             "defaultValue": "centralindia"
         }
     },
+    // Change the baseUri to http://740a8a3bc583.ngrok.io/ while running locally
     "variables": {
-        "baseURI": "http://bd194ead556b.ngrok.io/",
-        "sqlDbName": "inventory",
-        "appServicePlanName": "ekartasp",
-        "eKartApiName": "ekartapi"
+        "baseURI": "http://740a8a3bc583.ngrok.io/"
     },
     "functions": [],
     "resources": 
@@ -27,21 +25,35 @@
             "location": "[parameters('rgLocation')]"
         },
         {
-            "name": "linkedDeployment",
+            "name": "dbdeployment",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "resourceGroup": "[parameters('rgName')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Resources/resourceGroups/', concat(parameters('rgName')))]"
-            ],
             "properties": 
-                {
-                    "mode": "Incremental",
-                    "templateLink": {
-                        "uri": "[concat(variables('baseURI') ,'azuredeploy-sql.json')]"                                             
-                    }
+            {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseURI') ,'azuredeploy-sql.json')]"
                 }
-        }
+            }
+        },
+        {
+            "name": "appdeployment",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-10-01",
+            "resourceGroup": "[parameters('rgName')]",
+            "properties": 
+            {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseURI') ,'azuredeploy-app.json')]"
+                }
+            },
+            "dependsOn": 
+            [
+                "dbdeployment"
+            ]
+        }        
     ],
     "outputs": {}
 }
