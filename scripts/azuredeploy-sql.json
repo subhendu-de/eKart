@@ -5,7 +5,8 @@
     "functions": [],
     "variables": 
     {
-        "sqlServerName": "ekartdbserver"
+        "sqlServerName": "ekartdbserver",
+        "sqlDbName": "inventory"
     },
     "resources": [
         {
@@ -30,6 +31,19 @@
                         "startIpAddress": "0.0.0.0",
                         "endIpAddress": "0.0.0.0"
                     }
+                },
+                {
+                    "type": "databases",
+                    "apiVersion": "2020-08-01-preview",
+                    "name": "[variables('sqlDbName')]",
+                    "location": "[resourceGroup().location]",
+                    "sku": {
+                        "name": "Basic",
+                        "tier": "Basic"
+                    },
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Sql/servers', variables('sqlServerName'))]"
+                    ]
                 }
             ]
         }
