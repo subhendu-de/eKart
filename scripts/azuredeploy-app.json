@@ -8,6 +8,8 @@
         "appServicePlanName": "ekartasp",
         "eKartApiName": "ekartapi2021",
         "linuxFxVersion": "DOTNETCORE|3.1",
+        "skuName": "F1",
+        "skuCapacity": 1
     },
     "resources": 
     [
@@ -17,13 +19,11 @@
             "apiVersion": "2018-02-01",
             "location": "[resourceGroup().location]",
             "sku": {
-                "name": "F1",
-                "capacity": 1
+                "name": "[variables('skuName')]",
+                "capacity": "[variables('skuCapacity')]"
             },
             "kind": "linux",
-            "properties": {
-                "reserved": true
-            }
+            "properties": {}
         },
         {
             "name": "[variables('eKartApiName')]",
@@ -39,7 +39,24 @@
                 "siteConfig": {
                     "linuxFxVersion": "[variables('linuxFxVersion')]"                
                 }
-            }
+            },
+            "resources": 
+            [
+                {
+                    "name": "connectionstrings",
+                    "type": "config",
+                    "apiVersion": "2018-11-01",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Web/sites', variables('eKartApiName'))]"
+                    ],
+                    "properties": {
+                        "ConnectionString": {
+                        "value": "[reference('dbdeployment').outputs.connectionString.value]",
+                        "type": "SQLAzure"
+                        }
+                    }                    
+                }
+            ]
         }
     ],
     "outputs": {}

@@ -6,7 +6,11 @@
     "variables": 
     {
         "sqlServerName": "ekartdbserver",
-        "sqlDbName": "inventory"
+        "sqlDbName": "ekart",
+        "sqlAdminLogin": "ekartadmin",
+        "sqlAdminPassword": "Test4Fun",
+        "skuName": "Basic",
+        "skuTier": "Basic"
     },
     "resources": [
         {
@@ -15,8 +19,8 @@
             "apiVersion": "2019-06-01-preview",
             "location": "[resourceGroup().location]",
             "properties": {
-                "administratorLogin": "ekartadmin",
-                "administratorLoginPassword": "Test4Fun"
+                "administratorLogin": "[variables('sqlAdminLogin')]",
+                "administratorLoginPassword": "[variables('sqlAdminPassword')]"
             },
             "resources": [
                 {
@@ -38,8 +42,8 @@
                     "name": "[variables('sqlDbName')]",
                     "location": "[resourceGroup().location]",
                     "sku": {
-                        "name": "Basic",
-                        "tier": "Basic"
+                        "name": "[variables('skuName')]",
+                        "tier": "[variables('skuTier')]"
                     },
                     "dependsOn": [
                         "[resourceId('Microsoft.Sql/servers', variables('sqlServerName'))]"
@@ -48,5 +52,12 @@
             ]
         }
     ],
-    "outputs": {}
+    "outputs": 
+    {
+        "connectionString": 
+        {
+            "type": "string",
+            "value": "[concat('Data Source=tcp:', reference(resourceId('Microsoft.Sql/servers/', variables('sqlServerName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', variables('sqlDbName'), ';User Id=', variables('sqlAdminLogin'), '@', reference(resourceId('Microsoft.Sql/servers/', variables('sqlserverName'))).fullyQualifiedDomainName, ';Password=', variables('sqlAdminPassword'), ';')]"
+        }
+    }
 }

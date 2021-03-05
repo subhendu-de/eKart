@@ -13,7 +13,7 @@
     },
     // Change the baseUri to http://740a8a3bc583.ngrok.io/ while running locally
     "variables": {
-        "baseURI": "http://740a8a3bc583.ngrok.io/"
+        "baseURI": "http://7f0ce6a9960a.ngrok.io/"
     },
     "functions": [],
     "resources": 
@@ -35,7 +35,11 @@
                 "templateLink": {
                     "uri": "[concat(variables('baseURI') ,'azuredeploy-sql.json')]"
                 }
-            }
+            },
+            "dependsOn": 
+            [
+                "[resourceId('Microsoft.Resources/resourceGroups', parameters('rgName'))]"
+            ]
         },
         {
             "name": "appdeployment",
