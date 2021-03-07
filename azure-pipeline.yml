@@ -57,5 +57,5 @@ stages:
             appType: 'webApp'
             appName: 'ekartapi2021'
             package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
-            deploymentMethod: 'auto'
+            deploymentMethod: 'zipDeploy'
 
