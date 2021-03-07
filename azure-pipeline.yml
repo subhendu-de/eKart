@@ -56,6 +56,6 @@ stages:
             azureSubscription: 'Visual Studio Ultimate with MSDN(21490f0c-acc8-4720-bdaa-300c230b5236)'
             appType: 'webApp'
             appName: 'ekartapi2021'
-            package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+            package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
             deploymentMethod: 'auto'
 
