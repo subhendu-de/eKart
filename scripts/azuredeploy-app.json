@@ -11,30 +11,43 @@
     {
         "appServicePlanName": "ekartasp",
         "eKartApiName": "ekartapi2021",
-        "linuxFxVersion": "DOTNETCORE|3.1",
-        "skuName": "B1",
-        "skuCapacity": 1
+        "skuName" : "F1",
+        "language": ".net",
+        "configReference": {
+            ".net": {
+                "comments": ".Net app. No additional configuration needed."
+            },
+            "html": {
+                "comments": "HTML app. No additional configuration needed."
+            },
+            "php": {
+                "phpVersion": "7.4"
+            },
+            "node": {
+                "appSettings": [
+                    {
+                        "name": "WEBSITE_NODE_DEFAULT_VERSION",
+                        "value": "12.15.0"
+                    }
+                ]
+            }
+                }        
     },
     "resources": 
     [
         {
             "name": "[variables('appServicePlanName')]",
             "type": "Microsoft.Web/serverfarms",
-            "apiVersion": "2018-02-01",
+            "apiVersion": "2020-06-01",
             "location": "[resourceGroup().location]",
             "sku": {
-                "name": "[variables('skuName')]",
-                "capacity": "[variables('skuCapacity')]"
-            },
-            "kind": "linux",
-            "properties": {
-                "reserved": true
+                "name": "[variables('skuName')]"
             }
         },
         {
             "name": "[variables('eKartApiName')]",
             "type": "Microsoft.Web/sites",
-            "apiVersion": "2018-11-01",
+            "apiVersion": "2020-06-01",
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]"
@@ -42,8 +55,15 @@
             "properties": 
             {
                 "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]",
+                //"siteConfig": "[variables('configReference')[variables('language')]]"
                 "siteConfig": {
-                    "linuxFxVersion": "[variables('linuxFxVersion')]"                
+                    "netFrameworkVersion": "",
+                    "metadata": [
+                        {
+                            "name": "CURRENT_STACK",
+                            "value": "dotnetcore"
+                        }
+                    ]
                 }
             },
             "resources": 
@@ -60,9 +80,9 @@
                         "value": "[parameters('connectionString')]",
                         "type": "SQLAzure"
                         }
-                    }                    
-                }
-            ]
+                    }
+                }              
+            ]            
         }
     ],
     "outputs": {}
