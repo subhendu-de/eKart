@@ -55,6 +55,8 @@ stages:
           displayName: 'Deploy the eKart api'
           inputs:
             azureSubscription: 'Visual Studio Ultimate with MSDN(21490f0c-acc8-4720-bdaa-300c230b5236)'
+            appType: 'webApp'
             appName: 'ekartapi2021'
-            packageForLinux: '$(Build.ArtifactStagingDirectory)/Release/**/*.zip'
+            package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+            deploymentMethod: 'auto'
 
