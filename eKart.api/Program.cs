@@ -7,7 +7,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration.UserSecrets;
 using eKart.Api.Data;
+using System.Reflection;
 
 namespace eKart.api
 {
@@ -43,6 +45,14 @@ namespace eKart.api
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                })
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    var env = hostingContext.HostingEnvironment;                    
+                    if (hostingContext.HostingEnvironment.IsDevelopment())
+                        config.AddUserSecrets<Program>();
+                    else
+                        config.AddEnvironmentVariables();
                 });
     }
 }
