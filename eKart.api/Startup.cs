@@ -29,7 +29,10 @@ namespace eKart.api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();  
-            services.AddDbContext<eKartContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<eKartContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
             services.AddSwaggerGen();
         }
 

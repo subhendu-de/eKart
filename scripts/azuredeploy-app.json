@@ -76,7 +76,7 @@
                         "[resourceId('Microsoft.Web/sites', variables('eKartApiName'))]"
                     ],
                     "properties": {
-                        "ConnectionString": {
+                        "DefaultConnection": {
                         "value": "[parameters('connectionString')]",
                         "type": "SQLAzure"
                         }
