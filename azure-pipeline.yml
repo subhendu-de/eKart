@@ -49,7 +49,6 @@ stages:
           displayName: 'Publish Artifact: eKart'
           inputs:
             pathtoPublish: '$(Build.ArtifactStagingDirectory)/Release'
-          artifactName: 'eKartApi'
 
         - task: AzureWebApp@1
           displayName: 'Deploy the eKart api'
