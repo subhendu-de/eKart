@@ -43,19 +43,19 @@ stages:
             projects: '**/*.csproj'
             publishWebProjects: false
             arguments: '--no-build --configuration Release --output $(Build.ArtifactStagingDirectory)/Release'
-            zipAfterPublish: true        
-
-        - task: AzureRmWebAppDeployment@4
-          displayName: 'Deploy the eKart api'
-          inputs:
-            ConnectionType: 'AzureRM'
-            azureSubscription: 'Visual Studio Ultimate with MSDN(21490f0c-acc8-4720-bdaa-300c230b5236)'
-            appType: 'webApp'
-            WebAppName: 'ekartapi2021'
-            packageForLinux: '$(Build.ArtifactStagingDirectory)/Release/**/eKart.api.zip'
-            enableCustomDeployment: true
-            DeploymentType: 'webDeploy'
+            zipAfterPublish: true      
 
         - task: PublishBuildArtifacts@1
-          displayName: 'Publish Artifact: drop'
-          condition: succeeded()
+          displayName: 'Publish Artifact: eKart'
+          inputs:
+            pathtoPublish: '$(Build.ArtifactStagingDirectory)/Release'
+
+        - task: AzureWebApp@1
+          displayName: 'Deploy the eKart api'
+          inputs:
+            azureSubscription: 'Visual Studio Ultimate with MSDN(21490f0c-acc8-4720-bdaa-300c230b5236)'
+            appType: 'webApp'
+            appName: 'ekartapi2021'
+            package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+            deploymentMethod: 'zipDeploy'
+

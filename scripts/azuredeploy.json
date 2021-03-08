@@ -13,7 +13,7 @@
     },
     // Change the baseUri to http://740a8a3bc583.ngrok.io/ while running locally
     "variables": {
-        "baseURI": "http://740a8a3bc583.ngrok.io/"
+        "baseURI": "https://github.com/subhendu-de/eKart/blob/main/scripts/"
     },
     "functions": [],
     "resources": 
@@ -35,7 +35,11 @@
                 "templateLink": {
                     "uri": "[concat(variables('baseURI') ,'azuredeploy-sql.json')]"
                 }
-            }
+            },
+            "dependsOn": 
+            [
+                "[resourceId('Microsoft.Resources/resourceGroups', parameters('rgName'))]"
+            ]
         },
         {
             "name": "appdeployment",
@@ -47,6 +51,12 @@
                 "mode": "Incremental",
                 "templateLink": {
                     "uri": "[concat(variables('baseURI') ,'azuredeploy-app.json')]"
+                },
+                "parameters":
+                {
+                    "connectionString": {
+                        "value": "[reference('dbdeployment').outputs.connectionString.value]"
+                    }
                 }
             },
             "dependsOn": 
@@ -54,6 +64,5 @@
                 "dbdeployment"
             ]
         }        
-    ],
-    "outputs": {}
+    ]
 }
