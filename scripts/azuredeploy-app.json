@@ -11,59 +11,62 @@
     {
         "appServicePlanName": "ekartasp",
         "eKartApiName": "ekartapi2021",
-        "skuName" : "F1",
-        "language": ".net",
-        "configReference": {
-            ".net": {
-                "comments": ".Net app. No additional configuration needed."
-            },
-            "html": {
-                "comments": "HTML app. No additional configuration needed."
-            },
-            "php": {
-                "phpVersion": "7.4"
-            },
-            "node": {
-                "appSettings": [
-                    {
-                        "name": "WEBSITE_NODE_DEFAULT_VERSION",
-                        "value": "12.15.0"
-                    }
-                ]
-            }
-                }        
+        "sku": "Free",
+        "skuCode": "F1",
+        "workerSize": "0",
+        "workerSizeId": "0",
+        "numberOfWorkers": "1"       
     },
     "resources": 
     [
         {
             "name": "[variables('appServicePlanName')]",
             "type": "Microsoft.Web/serverfarms",
-            "apiVersion": "2020-06-01",
+            "apiVersion": "2018-11-01",
             "location": "[resourceGroup().location]",
             "sku": {
-                "name": "[variables('skuName')]"
-            }
+                "Tier": "[variables('sku')]",
+                "Name": "[variables('skuCode')]"                
+            },
+            "properties": {
+                "name": "[variables('appServicePlanName')]",
+                "workerSize": "[variables('workerSize')]",
+                "workerSizeId": "[variables('workerSizeId')]",
+                "numberOfWorkers": "[variables('numberOfWorkers')]"
+            },            
         },
         {
             "name": "[variables('eKartApiName')]",
             "type": "Microsoft.Web/sites",
-            "apiVersion": "2020-06-01",
+            "apiVersion": "2018-11-01",
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]"
             ],
             "properties": 
             {
+                "name": "[variables('eKartApiName')]",
                 "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]",
-                //"siteConfig": "[variables('configReference')[variables('language')]]"
+                "clientAffinityEnabled": true,
                 "siteConfig": {
-                    "netFrameworkVersion": "",
+                    "appSettings": [
+                        {
+                            "name": "ANCM_ADDITIONAL_ERROR_PAGE_LINK",
+                            "value": "https://ekartapi2021.scm.azurewebsites.net/detectors?type=tools&name=eventviewer"
+                        },
+                        {
+                            "name": "ASPNETCORE_ENVIRONMENT",
+                            "value": "Production"
+                        }                        
+                    ],
                     "metadata": [
                         {
                             "name": "CURRENT_STACK",
                             "value": "dotnetcore"
                         }
-                    ]
+                    ],
+                    "phpVersion": "OFF",
+                    "alwaysOn": false                   
                 }
             },
             "resources": 
