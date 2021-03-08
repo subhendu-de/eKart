@@ -13,7 +13,7 @@
     },
     // Change the baseUri to http://740a8a3bc583.ngrok.io/ while running locally
     "variables": {
-        "baseURI": "https://github.com/subhendu-de/eKart/edit/main/scripts/"
+        "baseURI": "https://github.com/subhendu-de/eKart/blob/main/scripts/"
     },
     "functions": [],
     "resources": 
