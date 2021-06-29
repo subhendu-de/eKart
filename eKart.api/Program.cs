@@ -1,28 +1,24 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration.UserSecrets;
 using eKart.Api.Data;
-using System.Reflection;
+using System.Threading.Tasks;
 
 namespace eKart.api
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            CreateDbIfNotExists(host);
+            await CreateDbIfNotExists(host);
             host.Run();
         }
 
-        private static void CreateDbIfNotExists(IHost host)
+        private static async Task CreateDbIfNotExists(IHost host)
         {
             using (var scope = host.Services.CreateScope())
             {
@@ -30,7 +26,7 @@ namespace eKart.api
                 try
                 {
                     var context = services.GetRequiredService<eKartContext>();
-                    DbInitializer.Initialize(context);
+                    await DbInitializer.InitializeAsync(context);
                 }
                 catch (Exception ex)
                 {
