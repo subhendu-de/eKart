@@ -1,13 +1,13 @@
-using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace eKart.Api.Data
 {
     public static class DbInitializer
     {
-        public static void Initialize(eKartContext context)
+        public static async Task InitializeAsync(eKartContext context)
         {
-            context.Database.EnsureCreated();
+            await context.Database.EnsureCreatedAsync();
 
             if (context.Products.Any())
             {
@@ -26,7 +26,7 @@ namespace eKart.Api.Data
             };
 
             context.Products.AddRange(products);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
     }
 }

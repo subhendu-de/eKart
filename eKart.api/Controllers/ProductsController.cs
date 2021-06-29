@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using eKart.Api.Data;
 
 namespace eKart.api.Controllers
@@ -34,28 +32,28 @@ namespace eKart.api.Controllers
 
         // POST api/products
         [HttpPost]
-        public void Post([FromBody]Product value)
+        public async Task<int> Post([FromBody]Product value)
         {
             _context.Products.Add(value);
-            _context.SaveChanges();
+            return await _context.SaveChangesAsync();
         }
-
+        
         // PUT api/products/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]Product value)
+        public async Task<int> Put(int id, [FromBody]Product value)
         {
             var _product = _context.Products.FirstOrDefault(x => x.ID == value.ID);
             _product.Name = value.Name;
-            _context.SaveChanges();
+            return await _context.SaveChangesAsync();
         }
 
         // DELETE api/products/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<int> Delete(int id)
         {
             var _product = _context.Products.FirstOrDefault(x => x.ID == id);
             _context.Products.Remove(_product);
-            _context.SaveChanges();
+            return await _context.SaveChangesAsync();
         }
     }
 }
