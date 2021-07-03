@@ -5,7 +5,7 @@ trigger:
 
 variables:
   buildConfiguration: 'Release'
-  dotnetSdkVersion: '3.1.403'
+  dotnetSdkVersion: '5.0.301'
 
 stages:
  - stage: 'Build'
@@ -33,7 +33,7 @@ stages:
           displayName: 'Build the project - Release'
           inputs:
             command: 'build'
-            arguments: '--no-restore --configuration Release'
+            arguments: '--no-restore --configuration $(buildConfiguration)'
             projects: '**/*.csproj' 
 
         - task: DotNetCoreCLI@2
@@ -42,20 +42,20 @@ stages:
             command: 'publish'
             projects: '**/*.csproj'
             publishWebProjects: false
-            arguments: '--no-build --configuration Release --output $(Build.ArtifactStagingDirectory)/Release'
+            arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
             zipAfterPublish: true      
 
-        - task: PublishBuildArtifacts@1
-          displayName: 'Publish Artifact: eKart'
-          inputs:
-            pathtoPublish: '$(Build.ArtifactStagingDirectory)/Release'
+        # - task: PublishBuildArtifacts@1
+        #   displayName: 'Publish Artifact: eKart'
+        #   inputs:
+        #     pathtoPublish: '$(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
 
-        - task: AzureWebApp@1
-          displayName: 'Deploy the eKart api'
-          inputs:
-            azureSubscription: 'Visual Studio Ultimate with MSDN(21490f0c-acc8-4720-bdaa-300c230b5236)'
-            appType: 'webApp'
-            appName: 'ekartapi2021'
-            package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
-            deploymentMethod: 'zipDeploy'
+        # - task: AzureWebApp@1
+        #   displayName: 'Deploy the eKart api'
+        #   inputs:
+        #     azureSubscription: 'Visual Studio Ultimate with MSDN(21490f0c-acc8-4720-bdaa-300c230b5236)'
+        #     appType: 'webApp'
+        #     appName: 'ekartapi2021'
+        #     package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+        #     deploymentMethod: 'zipDeploy'
 
