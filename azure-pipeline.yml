@@ -36,19 +36,21 @@ stages:
             arguments: '--no-restore --configuration $(buildConfiguration)'
             projects: '**/*.csproj' 
 
-        - task: DotNetCoreCLI@2
-          displayName: 'Publish the project - Release'
-          inputs:
-            command: 'publish'
-            projects: '**/*.csproj'
-            publishWebProjects: false
-            arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
-            zipAfterPublish: true      
-
-        # - task: PublishBuildArtifacts@1
-        #   displayName: 'Publish Artifact: eKart'
+        # - task: DotNetCoreCLI@2
+        #   displayName: 'Publish the project - Release'
         #   inputs:
-        #     pathtoPublish: '$(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
+        #     command: 'publish'
+        #     projects: '**/*.csproj'
+        #     publishWebProjects: false
+        #     arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
+        #     zipAfterPublish: true      
+
+        - task: PublishBuildArtifacts@1
+          displayName: 'Publish Artifact: eKart'
+          inputs:
+            pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+            ArtifactName: 'drop'
+            publishLocation: 'Container'
 
         # - task: AzureWebApp@1
         #   displayName: 'Deploy the eKart api'
