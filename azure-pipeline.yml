@@ -25,7 +25,7 @@ stages:
             csmFile: '$(Build.SourcesDirectory)/scripts/azuredeploy.json'
             deploymentMode: 'Incremental'
 
- - stage: 'Deploy'
+ - stage: 'BuildandDeploy'
    jobs:
     - job:
       displayName: 'Build the app'
