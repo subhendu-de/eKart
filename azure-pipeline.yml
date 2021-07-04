@@ -10,8 +10,8 @@ variables:
 stages:
  - stage: 'Build'
    jobs:
-    - job: 'Build' 
-      displayName: 'Build the app'
+    - job:
+      displayName: 'Build the application'
       pool:
         vmImage: 'windows-latest'
       steps:
@@ -34,28 +34,21 @@ stages:
           inputs:
             command: 'build'
             arguments: '--no-restore --configuration $(buildConfiguration)'
-            projects: '**/*.csproj' 
-
-        - task: DotNetCoreCLI@2
-          displayName: 'Publish the project - Release'
-          inputs:
-            command: 'publish'
             projects: '**/*.csproj'
-            publishWebProjects: false
-            arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
-            zipAfterPublish: true      
 
-        # - task: PublishBuildArtifacts@1
-        #   displayName: 'Publish Artifact: eKart'
-        #   inputs:
-        #     pathtoPublish: '$(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
-
-        # - task: AzureWebApp@1
-        #   displayName: 'Deploy the eKart api'
-        #   inputs:
-        #     azureSubscription: 'Visual Studio Ultimate with MSDN(21490f0c-acc8-4720-bdaa-300c230b5236)'
-        #     appType: 'webApp'
-        #     appName: 'ekartapi2021'
-        #     package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
-        #     deploymentMethod: 'zipDeploy'
+ - stage: 'Provision' 
+   jobs:
+    - job:
+      displayName: 'Create Azure resources'
+      pool:
+        vmImage: 'windows-latest'
+      steps:
+        - task: AzureResourceManagerTemplateDeployment@3
+          inputs:
+            deploymentScope: 'Subscription'
+            azureResourceManagerConnection: 'Visual Studio Ultimate with MSDN'
+            location: 'Central India'
+            templateLocation: 'Linked artifact'
+            csmFile: '$(Build.DefaultWorkingDirectory)/scripts/azuredeploy.json'
+            deploymentMode: 'Incremental'
 
