@@ -36,6 +36,13 @@ stages:
             arguments: '--no-restore --configuration $(buildConfiguration)'
             projects: '**/*.csproj'
 
+        - task: CopyFiles@2
+          displayName: 'Copy the files'
+          inputs:
+            SourceFolder: '$(Build.SourcesDirectory)/scripts'
+            CleanTargetFolder: true
+            TargetFolder: $(Build.DefaultWorkingDirectory)
+
  - stage: 'Provision' 
    jobs:
     - job:
