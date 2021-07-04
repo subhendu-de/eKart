@@ -8,10 +8,34 @@ variables:
   dotnetSdkVersion: '5.0.301'
 
 stages:
- - stage: 'Build'
+ - stage: 'Provision'
    jobs:
     - job:
-      displayName: 'Build the application'
+      displayName: 'Create Azure resources'
+      pool:
+        vmImage: 'windows-latest'
+      steps:
+        - task: CopyFiles@2
+          displayName: 'Copy the arm templates'
+          inputs:
+            SourceFolder: '$(Build.SourcesDirectory)/scripts'
+            CleanTargetFolder: true
+            TargetFolder: '$(Build.StagingDirectory)/scripts'  
+    
+        - task: AzureResourceManagerTemplateDeployment@3
+          displayName: 'Deploy the arm templates'
+          inputs:
+            deploymentScope: 'Subscription'
+            azureResourceManagerConnection: 'Visual Studio Ultimate with MSDN'
+            location: 'Central India'
+            templateLocation: 'Linked artifact'
+            csmFile: '$(Build.StagingDirectory)/scripts/azuredeploy.json'
+            deploymentMode: 'Incremental'
+
+ - stage: 'Deploy'
+   jobs:
+    - job:
+      displayName: 'Build the app'
       pool:
         vmImage: 'windows-latest'
       steps:
@@ -24,37 +48,31 @@ stages:
           displayName: 'Use nuget'
 
         - task: DotNetCoreCLI@2
-          displayName: 'Restore project dependencies'
+          displayName: 'Restore app dependencies'
           inputs:
             command: 'restore'
             projects: '**/*.csproj'
 
         - task: DotNetCoreCLI@2
-          displayName: 'Build the project - Release'
+          displayName: 'Build the app'
           inputs:
             command: 'build'
             arguments: '--no-restore --configuration $(buildConfiguration)'
             projects: '**/*.csproj'
 
- - stage: 'Provision'
-   jobs:
-    - job:
-      displayName: 'Create Azure resources'
-      pool:
-        vmImage: 'windows-latest'
-      steps:
-        - task: CopyFiles@2
-          displayName: 'Copy the files'
+        - task: DotNetCoreCLI@2
+          displayName: 'Package the app'
           inputs:
-            SourceFolder: '$(Build.SourcesDirectory)/scripts'
-            CleanTargetFolder: true
-            TargetFolder: '$(Build.StagingDirectory)/scripts'      
-        - task: AzureResourceManagerTemplateDeployment@3
+            command: publish
+            publishWebProjects: True
+            arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+            zipAfterPublish: True
+
+        - task: AzureWebApp@1
+          displayName: 'Deploy the packaged app to Azure web app'
           inputs:
-            deploymentScope: 'Subscription'
-            azureResourceManagerConnection: 'Visual Studio Ultimate with MSDN'
-            location: 'Central India'
-            templateLocation: 'Linked artifact'
-            csmFile: '$(Build.StagingDirectory)/scripts/azuredeploy.json'
-            deploymentMode: 'Incremental'
+            azureSubscription: 'Visual Studio Ultimate with MSDN'
+            appName: 'ekartapi2021'
+            package: $(System.DefaultWorkingDirectory)/**/*.zip                
+
 
