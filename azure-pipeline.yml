@@ -41,9 +41,9 @@ stages:
           inputs:
             SourceFolder: '$(Build.SourcesDirectory)/scripts'
             CleanTargetFolder: true
-            TargetFolder: $(Build.DefaultWorkingDirectory)
+            TargetFolder: '$(Build.DefaultWorkingDirectory)/scripts'
 
- - stage: 'Provision' 
+ - stage: 'Provision'
    jobs:
     - job:
       displayName: 'Create Azure resources'
