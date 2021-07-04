@@ -41,7 +41,7 @@ stages:
           inputs:
             SourceFolder: '$(Build.SourcesDirectory)/scripts'
             CleanTargetFolder: true
-            TargetFolder: '$(Build.DefaultWorkingDirectory)/scripts'
+            TargetFolder: '$(Build.StagingDirectory)/scripts'
 
  - stage: 'Provision'
    jobs:
@@ -56,6 +56,6 @@ stages:
             azureResourceManagerConnection: 'Visual Studio Ultimate with MSDN'
             location: 'Central India'
             templateLocation: 'Linked artifact'
-            csmFile: '$(Build.DefaultWorkingDirectory)/scripts/azuredeploy.json'
+            csmFile: '$(Build.StagingDirectory)/scripts/azuredeploy.json'
             deploymentMode: 'Incremental'
 
