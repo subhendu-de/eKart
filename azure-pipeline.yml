@@ -36,13 +36,6 @@ stages:
             arguments: '--no-restore --configuration $(buildConfiguration)'
             projects: '**/*.csproj'
 
-        - task: CopyFiles@2
-          displayName: 'Copy the files'
-          inputs:
-            SourceFolder: '$(Build.SourcesDirectory)/scripts'
-            CleanTargetFolder: true
-            TargetFolder: '$(Build.StagingDirectory)/scripts'
-
  - stage: 'Provision'
    jobs:
     - job:
@@ -50,6 +43,12 @@ stages:
       pool:
         vmImage: 'windows-latest'
       steps:
+        - task: CopyFiles@2
+          displayName: 'Copy the files'
+          inputs:
+            SourceFolder: '$(Build.SourcesDirectory)/scripts'
+            CleanTargetFolder: true
+            TargetFolder: '$(Build.StagingDirectory)/scripts'      
         - task: AzureResourceManagerTemplateDeployment@3
           inputs:
             deploymentScope: 'Subscription'
