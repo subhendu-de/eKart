@@ -10,7 +10,7 @@ variables:
 stages:
  - stage: 'Build the application'
    jobs:
-    - job:
+    - job: 'Build'
       displayName: 'Build the application'
       pool:
         vmImage: 'windows-latest'
