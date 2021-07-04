@@ -73,6 +73,6 @@ stages:
           inputs:
             azureSubscription: 'Visual Studio Ultimate with MSDN'
             appName: 'ekartapi2021'
-            package: $(System.StagingDirectory)/**/*.zip  
+            package: $(Build.StagingDirectory)/**/*.zip  
 
 
