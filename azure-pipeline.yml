@@ -8,10 +8,10 @@ variables:
   dotnetSdkVersion: '5.0.301'
 
 stages:
- - stage: 'Build'
+ - stage: 'Build the application'
    jobs:
-    - job: 'Build' 
-      displayName: 'Build the app'
+    - job:
+      displayName: 'Build the application'
       pool:
         vmImage: 'windows-latest'
       steps:
@@ -34,30 +34,12 @@ stages:
           inputs:
             command: 'build'
             arguments: '--no-restore --configuration $(buildConfiguration)'
-            projects: '**/*.csproj' 
+            projects: '**/*.csproj'
 
-        # - task: DotNetCoreCLI@2
-        #   displayName: 'Publish the project - Release'
-        #   inputs:
-        #     command: 'publish'
-        #     projects: '**/*.csproj'
-        #     publishWebProjects: false
-        #     arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
-        #     zipAfterPublish: true      
-
-        - task: PublishBuildArtifacts@1
-          displayName: 'Publish Artifact: eKart'
+        - task: CopyFiles@2
+          displayName: 'Copy the files'
           inputs:
-            pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-            ArtifactName: 'drop'
-            publishLocation: 'Container'
-
-        # - task: AzureWebApp@1
-        #   displayName: 'Deploy the eKart api'
-        #   inputs:
-        #     azureSubscription: 'Visual Studio Ultimate with MSDN(21490f0c-acc8-4720-bdaa-300c230b5236)'
-        #     appType: 'webApp'
-        #     appName: 'ekartapi2021'
-        #     package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
-        #     deploymentMethod: 'zipDeploy'
+            SourceFolder: '$(Build.SourcesDirectory)/scripts'
+            CleanTargetFolder: true
+            TargetFolder: $(Build.ArtifactStagingDirectory)
 
