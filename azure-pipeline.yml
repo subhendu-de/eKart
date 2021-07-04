@@ -57,6 +57,6 @@ stages:
             subscriptionId: '21490f0c-acc8-4720-bdaa-300c230b5236'
             location: 'Central India'
             templateLocation: 'Linked artifact'
-            csmFile: '$(Build.ArtifactStagingDirectory)/scripts/azuredeploy.json'
+            csmFile: '$(Build.SourcesDirectory)/scripts/azuredeploy.json'
             deploymentMode: 'Incremental'
 
