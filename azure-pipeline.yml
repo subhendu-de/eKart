@@ -8,9 +8,9 @@ variables:
   dotnetSdkVersion: '5.0.301'
 
 stages:
- - stage: 'Build the application'
+ - stage: 'Build'
    jobs:
-    - job: 'Build'
+    - job:
       displayName: 'Build the application'
       pool:
         vmImage: 'windows-latest'
