@@ -13,3 +13,5 @@ dotnet add package Swashbuckle.AspNetCore
 
 dotnet build --project .\eKart.Api\eKart.Api.csproj
 dotnet run --project .\eKart.Api\eKart.Api.csproj
+
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer

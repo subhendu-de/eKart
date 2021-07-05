@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using eKart.Api.Data;
+using Microsoft.OpenApi.Models;
 
 namespace eKart.api
 {
@@ -25,7 +26,10 @@ namespace eKart.api
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ekart API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,9 +38,7 @@ namespace eKart.api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
-
-            app.UseHttpsRedirection();
+            }            
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -45,7 +47,11 @@ namespace eKart.api
                 c.RoutePrefix = string.Empty;
             });
 
+            app.UseHttpsRedirection();
+
             app.UseRouting();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
