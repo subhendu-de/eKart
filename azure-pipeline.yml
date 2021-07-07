@@ -48,7 +48,7 @@ stages:
             zipAfterPublish: True
 
         - task: PublishBuildArtifacts@1
-          displayName: 'Publish Artifact: drop'
+          displayName: 'Publish the build artifacts'
           condition: succeeded()
 
  - stage: 'Deploy'
@@ -62,7 +62,7 @@ stages:
 
       steps:
         - task: AzureResourceManagerTemplateDeployment@3
-          displayName: 'Deploy the arm templates'
+          displayName: 'Provision Azure resources'
           inputs:
             deploymentScope: 'Subscription'
             azureResourceManagerConnection: 'Visual Studio Ultimate with MSDN'
@@ -72,12 +72,13 @@ stages:
             deploymentMode: 'Incremental'
 
         - task: DownloadPipelineArtifact@2
+          displayName: 'Download the build artifacts'
           inputs:
             buildType: current
             artifact: 'drop'
 
         - task: AzureWebApp@1
-          displayName: 'Azure App Service Deploy: website'
+          displayName: 'Deploy the packaged app to Azure web app'
           inputs:
             azureSubscription: 'Visual Studio Ultimate with MSDN'
             appName: 'ekartapi2021'
