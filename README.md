@@ -1,19 +1,19 @@
 # eKart
 
-eKart is a fictitious project containing a product api endpoint. The api endpoint provides all the http verbs. It uses entity framework to connect to the sql azure database.
+**eKart** is a fictitious project showcasing a product api endpoint. It all the http verbs following the RESTful pattern. It also uses entity framework to connect to the sql azure database. The sample is build in .NET 5.0 and detailed article is available [ASP.NET Core web api with Swagger | .NET 5 - Getting started](http://dotnetartisan.in/getting-started-aspnet-core-web-api/)
 
 The eKart product api can be released in two ways
 
-- Regular build artifact deployment
-- Docker container based deployment
+- Regular build artifact deployment to managed services like Azure App Service
+- Container based deployment to Azure Kubernetes Service
 
-The former deploys the code to Azure app service and SQL Azure while the later deploys to an Azure container instance cluster.
+The detailed article is available [How to deploy Azure app service using Azure pipeline](http://dotnetartisan.in/deploy-azure-app-service-azure-pipeline/)
 
 ### Regular build artifact deployment
 
-This is a two step process. You can run the arm template located under the scripts folder
+This is a two staged process. More details can be found in the article [How to deploy Azure app service using Azure pipeline](http://dotnetartisan.in/deploy-azure-app-service-azure-pipeline/)
 
-##### How to Run the arm template scripts
+##### How to Run the arm template scripts locally
 
 ```ps
 New-AzSubscriptionDeployment `
@@ -25,7 +25,7 @@ New-AzSubscriptionDeployment `
 
 **Please read the steps below** if you want to make additional changes and run the arm template scripts from your local machine to validate. 
 
-Nested/linked templates are used to deploy the artifacts. All the nested templates should be accessed publicly either by hosting it on the public Git repository or on a storage account. There is a shortcut to test the nested templates locally. Please follow the steps below
+Linked templates are used to deploy the artifacts. They should be accessed publicly either by hosting it on the public Git repository or on a storage account. There is a shortcut to test the linked templates locally. Please follow the steps below
 
  - Install Node.js
  - Install http-server and NPM package
@@ -50,14 +50,6 @@ New-AzSubscriptionDeployment `
   -TemplateFile azuredeploy.json
 ```
 
-##### Run the azure-pipeline
-
-The eKart product api is built using azure pipeline and deploy to the azure app service. Please refer to the azure-pipeline.yml to configure and run it.
-
-Once both the steps are completed, the api swagger page is accessible here https://ekartapi2021.azurewebsites.net/
-
-
-<span style="color:red">**To be Done**</span>
 #### Docker container based deployment
 How to run the SQL container
 
