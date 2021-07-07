@@ -80,7 +80,7 @@ stages:
           displayName: 'Azure App Service Deploy: website'
           inputs:
             azureSubscription: 'Visual Studio Ultimate with MSDN'
-            appName: '$(WebAppName)'
+            appName: 'ekartapi2021'
             package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
 
 
