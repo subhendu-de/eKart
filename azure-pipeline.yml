@@ -81,6 +81,6 @@ stages:
           inputs:
             azureSubscription: 'Visual Studio Ultimate with MSDN'
             appName: 'ekartapi2021'
-            package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+            package: '$(Pipeline.Workspace)/$(buildConfiguration)/*.zip'
 
 
