@@ -48,7 +48,7 @@ stages:
             zipAfterPublish: True
 
         - task: PublishBuildArtifacts@1
-          displayName: 'Publish the build artifacts'
+          displayName: 'Publish the build artefacts'
           condition: succeeded()
 
  - stage: 'Deploy'
@@ -72,7 +72,7 @@ stages:
             deploymentMode: 'Incremental'
 
         - task: DownloadPipelineArtifact@2
-          displayName: 'Download the build artifacts'
+          displayName: 'Download the build artefacts'
           inputs:
             buildType: current
             artifact: 'drop'
@@ -83,5 +83,3 @@ stages:
             azureSubscription: 'Visual Studio Ultimate with MSDN'
             appName: 'ekartapi2021'
             package: '$(Pipeline.Workspace)/$(buildConfiguration)/*.zip'
-
-
