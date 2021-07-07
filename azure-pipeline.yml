@@ -8,29 +8,14 @@ variables:
   dotnetSdkVersion: '5.0.301'
 
 stages:
- - stage: 'Provision'
+ - stage: 'Build'
+   displayName: 'Build the app'
    jobs:
     - job:
-      displayName: 'Create Azure resources'
+      displayName: 'Build job'
       pool:
         vmImage: 'windows-latest'
-      steps:  
-        - task: AzureResourceManagerTemplateDeployment@3
-          displayName: 'Deploy the arm templates'
-          inputs:
-            deploymentScope: 'Subscription'
-            azureResourceManagerConnection: 'Visual Studio Ultimate with MSDN'
-            location: 'Central India'
-            templateLocation: 'Linked artifact'
-            csmFile: '$(Build.SourcesDirectory)/scripts/azuredeploy.json'
-            deploymentMode: 'Incremental'
 
- - stage: 'BuildandDeploy'
-   jobs:
-    - job:
-      displayName: 'Build the app'
-      pool:
-        vmImage: 'windows-latest'
       steps:
         - task: UseDotNet@2
           displayName: 'Use .NET Core SDK $(dotnetSdkVersion)'
@@ -47,25 +32,55 @@ stages:
             projects: '**/*.csproj'
 
         - task: DotNetCoreCLI@2
-          displayName: 'Build the app'
+          displayName: 'Build the app - $(buildConfiguration)'
           inputs:
             command: 'build'
             arguments: '--no-restore --configuration $(buildConfiguration)'
             projects: '**/*.csproj'
 
         - task: DotNetCoreCLI@2
-          displayName: 'Package the app'
+          displayName: 'Publish the app - $(buildConfiguration)'
           inputs:
             command: publish
-            publishWebProjects: True
-            arguments: '--configuration $(BuildConfiguration) --output $(Build.StagingDirectory)'
+            projects: '**/*.csproj'
+            publishWebProjects: False
+            arguments: '--no-build --configuration $(BuildConfiguration) --output $(Build.StagingDirectory)/$(buildConfiguration)'
             zipAfterPublish: True
 
+        - task: PublishBuildArtifacts@1
+          displayName: 'Publish Artifact: drop'
+          condition: succeeded()
+
+ - stage: 'Deploy'
+   displayName: 'Deploy the app'
+   dependsOn: Build
+   jobs:
+    - job:
+      displayName: 'Deploy job'
+      pool:
+        vmImage: 'windows-latest'
+
+      steps:
+        - task: AzureResourceManagerTemplateDeployment@3
+          displayName: 'Deploy the arm templates'
+          inputs:
+            deploymentScope: 'Subscription'
+            azureResourceManagerConnection: 'Visual Studio Ultimate with MSDN'
+            location: 'Central India'
+            templateLocation: 'Linked artifact'
+            csmFile: '$(Build.SourcesDirectory)/scripts/azuredeploy.json'
+            deploymentMode: 'Incremental'
+
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            buildType: current
+            artifact: 'drop'
+
         - task: AzureWebApp@1
-          displayName: 'Deploy the packaged app to Azure web app'
+          displayName: 'Azure App Service Deploy: website'
           inputs:
             azureSubscription: 'Visual Studio Ultimate with MSDN'
             appName: 'ekartapi2021'
-            package: $(Build.StagingDirectory)/**/*.zip  
+            package: '$(Pipeline.Workspace)/$(buildConfiguration)/*.zip'
 
 
