@@ -51,16 +51,16 @@ stages:
           displayName: 'Publish Artifact: drop'
           condition: succeeded()
 
-  - stage: 'Deploy'
-    displayName: 'Deploy the app'
-    dependsOn: Build
-    jobs:
-     - job:
-       displayName: 'Deploy job'
-       pool:
-         vmImage: 'windows-latest'
+ - stage: 'Deploy'
+   displayName: 'Deploy the app'
+   dependsOn: Build
+   jobs:
+    - job:
+      displayName: 'Deploy job'
+      pool:
+        vmImage: 'windows-latest'
 
-       steps:
+      steps:
         - task: AzureResourceManagerTemplateDeployment@3
           displayName: 'Deploy the arm templates'
           inputs:
